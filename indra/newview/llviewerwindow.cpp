@@ -5274,7 +5274,9 @@ bool LLViewerWindow::rawSnapshot(LLImageRaw *raw, S32 image_width, S32 image_hei
     if (!keep_window_aspect || (image_width > window_width) || (image_height > window_height))
     {
         if ((image_width <= gGLManager.mGLMaxTextureSize && image_height <= gGLManager.mGLMaxTextureSize) &&
-            (image_width > window_width || image_height > window_height) && LLPipeline::sRenderDeferred && !show_ui)
+            (image_width > window_width || image_height > window_height) &&
+            (static_cast<S64>(image_width) * window_height == static_cast<S64>(image_height) * window_width) &&
+            LLPipeline::sRenderDeferred && !show_ui)
         {
             U32 color_fmt = type == LLSnapshotModel::SNAPSHOT_TYPE_DEPTH ? GL_DEPTH_COMPONENT : GL_RGBA;
             if (scratch_space.allocate(image_width, image_height, color_fmt, true))
